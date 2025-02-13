@@ -8,7 +8,7 @@ $(NAME): $(OBJECTS)
 	cc -o $@ $^
 
 %.o: %.c
-	cc -Wall -Wextra -Werror -c -o $@ $<
+	cc -Wall -Wextra -Werror -g -c -o $@ $<
 
 clean:
 	rm -f $(OBJECTS)
