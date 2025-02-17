@@ -48,7 +48,7 @@ unsigned long	get_time_now()
 
 int	take_fork(t_data *data, int fork_id, unsigned long last_eat)
 {
-	int				loop;
+	volatile int	loop;
 	unsigned long	now;
 
 	loop = 1;
@@ -100,11 +100,11 @@ void	*create_thread(void *arg)
 		forks_id[1] = id;
 	}
 	
+	last_eat = get_time_now();
 	while (1)
 	{
 		print_msg(data, id, "is thinking");
 		
-		last_eat = get_time_now();
 		if (take_fork(data, forks_id[0], last_eat) != 0)
 			break ;
 		print_msg(data, id, "has taken a fork");
@@ -113,6 +113,7 @@ void	*create_thread(void *arg)
 		print_msg(data, id, "has taken a fork");
 
 		print_msg(data, id, "is eating");
+		last_eat = get_time_now();
 		usleep(data->t2eat * 1000);
 		pthread_mutex_lock(&data->fork_lock);
 		data->forks[forks_id[0]] = 0;
@@ -174,6 +175,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->forks = malloc(data->nb_forks * sizeof(int));
 	if (!data->forks)
 		return (-1);
+	memset(data->forks, 0, data->nb_forks * sizeof(int));
 	return (0);
 }
 
