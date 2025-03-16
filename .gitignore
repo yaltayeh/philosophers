@@ -1,5 +1,8 @@
 section_11
 o.out
 *.o
-philo
+philo/*.o
+philo/philo
+philo_bonus/*.o
+philo_bonus/philo
 test

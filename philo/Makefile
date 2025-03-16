@@ -1,6 +1,11 @@
 NAME = philo
 
-OBJECTS = main.o
+OBJECTS = 					\
+		main.o				\
+		initialization.o	\
+		utils.o				\
+
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
@@ -8,7 +13,7 @@ $(NAME): $(OBJECTS)
 	cc -o $@ $^
 
 %.o: %.c
-	cc -Wall -Wextra -Werror -g -c -o $@ $<
+	cc $(CFLAGS) -g -c -o $@ $<
 
 clean:
 	rm -f $(OBJECTS)
