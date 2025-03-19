@@ -6,9 +6,17 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 01:31:31 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/16 01:32:03 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/19 06:15:07 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+sem_open  	  // open
+sem_close 	  // close
+sem_post  	  // unlock
+sem_wait  	  // lock
+sem_unlink	  // remove
+*/
 
 #include "philo.h"
 
