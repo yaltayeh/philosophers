@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/16 01:29:53 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:36:11 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,25 @@
 # include <string.h>
 # include <stdio.h>
 
-/*
+
 typedef struct s_philo
 {
 	int				id;
-	pthread_t		tid;
-	unsigned long	last_meal;
-	int				meals_eaten;
-	pthread_mutex_t	*lfork;
-	pthread_mutex_t	*rfork;
+	pid_t			pid;
+	// pthread_t		tid;
+	// unsigned long	last_meal;
+	// int				meals_eaten;
+	// pthread_mutex_t	*lfork;
+	// pthread_mutex_t	*rfork;
 	struct s_table	*table;
 }	t_philo;
-*/
+
 
 
 typedef struct s_table
 {
 	int				nb_philo;
-	// t_philo			*philos;
+	t_philo			*philos;
 
 	long			t2die;
 	long			t2eat;
