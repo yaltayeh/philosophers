@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/16 01:21:30 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:05:16 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 
 void	print(t_philo *philo, char *msg)
 {
+	/*
+	pthread_mutex_lock(&philo->table->dead_lock);
+	if (philo->table->dead_for_ever \
+			&& philo->table->dead_for_ever != philo->id)
+	{
+		pthread_mutex_unlock(&philo->table->dead_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->table->dead_lock);
+	*/
+
 	pthread_mutex_lock(&philo->table->print_lock);
 	printf("%lu %d %s\n", \
 			get_time_now() - philo->table->start_time, \
@@ -46,8 +57,8 @@ int	check_dead(t_philo *philo)
 	if (delta >= (unsigned long)philo->table->t2die)
 	{
 		pthread_mutex_lock(&philo->table->dead_lock);
+		philo->table->dead_for_ever = philo->id;
 		print(philo, "died");
-		philo->table->dead_for_ever = 1;
 		pthread_mutex_unlock(&philo->table->dead_lock);
 		return (1);
 	}
@@ -67,19 +78,19 @@ void	*start_routine(void *arg)
 			break ;
 		print(philo, "is thinking");
 		
-		pthread_mutex_lock(philo->lfork);
-		print(philo, "has taken a fork");
-		if (check_dead(philo))
-		{
-			pthread_mutex_unlock(philo->lfork);
-			break ;
-		}
 		pthread_mutex_lock(philo->rfork);
 		print(philo, "has taken a fork");
 		if (check_dead(philo))
 		{
-			pthread_mutex_unlock(philo->lfork);
 			pthread_mutex_unlock(philo->rfork);
+			break ;
+		}
+		pthread_mutex_lock(philo->lfork);
+		print(philo, "has taken a fork");
+		if (check_dead(philo))
+		{
+			pthread_mutex_unlock(philo->rfork);
+			pthread_mutex_unlock(philo->lfork);
 			break ;
 		}
 		
@@ -87,13 +98,14 @@ void	*start_routine(void *arg)
 		philo->last_meal = get_time_now() - philo->table->start_time;
 		if (best_usleep(philo->table, philo->table->t2eat))
 		{
-			pthread_mutex_unlock(philo->lfork);
 			pthread_mutex_unlock(philo->rfork);
+			pthread_mutex_unlock(philo->lfork);
 			break ;
 		}
-		pthread_mutex_unlock(philo->lfork);
 		pthread_mutex_unlock(philo->rfork);
+		pthread_mutex_unlock(philo->lfork);
 		
+		// check meals
 		philo->meals_eaten++;
 		if (philo->table->nb_meal != -1 && philo->meals_eaten >= philo->table->nb_meal)
 			break ;
@@ -102,7 +114,7 @@ void	*start_routine(void *arg)
 		if (best_usleep(philo->table, philo->table->t2sleep))
 			break ;
 	}
-	return arg;
+	return NULL;
 }
 
 int main(int argc, char **argv)
