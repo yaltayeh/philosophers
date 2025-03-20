@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 01:31:31 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/19 21:33:14 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:55:39 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	error_handler(t_table *table)
 {
 	int	i;
 
-	(void)table;
+	perror("fork");
 	i = 0;
 	while (i < table->nb_philo)
 	{
-		if (table->philos[i].pid)
+		if (table->philos[i].pid > 0)
 			kill(table->philos[i].pid, SIGKILL);
 		table->philos[i].pid = 0;
 		i++;
@@ -54,16 +54,10 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < table.nb_philo)
 	{
-		table.philos[i].pid = fork();
-		if (table.philos[i].pid == -1)
+		if (philo_process(&table, i) != 0)
 			error_handler(&table);
-		if (table.philos[i].pid == 0)
-		{
-			exit(0);
-		}
 		i++;
 	}
-	if (fork)
 	return (0);
 }
 

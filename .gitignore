@@ -1,5 +1,6 @@
+.vscode
 section_11
-o.out
+*/o.out
 *.o
 philo/*.o
 philo/philo

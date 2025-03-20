@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/19 17:36:11 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:57:13 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
+# include <unistd.h>
 
 
 typedef struct s_philo
@@ -53,6 +54,7 @@ typedef struct s_table
 }	t_table;
 
 int				init_table(t_table *table, int argc, char **argv);
+int				philo_process(t_table *table, int i);
 unsigned long	get_time_now();
 
 #endif
