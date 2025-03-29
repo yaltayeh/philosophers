@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 01:31:31 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/19 17:39:09 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/29 13:38:11 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int main(int argc, char **argv)
 		}
 		i++;
 	}
-	if (fork)
 	return (0);
 }
 
