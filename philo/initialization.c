@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:48:51 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 23:18:33 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:41:22 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	init_forks(t_table *table)
 {
 	int	i;
 
-	table->forks_lock = malloc(table->nb_philo * sizeof(pthread_mutex_t));
-	if (!table->forks_lock)
+	table->forks = malloc(table->nb_philo * sizeof(struct s_fork));
+	if (!table->forks)
 		return (-1);
 	i = 0;
 	while (i < table->nb_philo)
