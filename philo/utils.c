@@ -6,11 +6,12 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:54:00 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/14 23:54:43 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:58:51 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
+# include <stdlib.h>
 
 unsigned long	get_time_now()
 {

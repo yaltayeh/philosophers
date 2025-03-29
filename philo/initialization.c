@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:48:51 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/16 00:48:26 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:59:47 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	init_philos(t_table *table)
 	while (i < table->nb_philo)
 	{
 		table->philos[i].id = i + 1;
-		table->philos[i].last_meal = 0;
+		table->philos[i].last_meal = get_time_now();
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].lfork = &table->forks_lock[i];
 		table->philos[i].rfork = &table->forks_lock[(i + 1) % table->nb_philo];
