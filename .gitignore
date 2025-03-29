@@ -6,3 +6,4 @@ philo/philo
 philo_bonus/*.o
 philo_bonus/philo
 test
+.vscode
