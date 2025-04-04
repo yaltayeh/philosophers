@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 17:35:50 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:59:02 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,8 @@ int	main(int argc, char **argv)
 {
 	t_table	table;
 
-	if (argc != 5 && argc != 6)
-	{
-		printf("Usage: %s nb_philo time_to_die time_to_eat " \
-				"time_to_sleep [nb_meal]\n", argv[0]);
+	if (check_args(argc, argv))
 		return (1);
-	}
 	if (init_table(&table, argc, argv) != 0)
 	{
 		printf("init Error\n");

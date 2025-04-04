@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/19 17:36:11 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:51:35 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_table
 	long			t2eat;
 	long			t2sleep;
 	
-	int				nb_meal;
+	int				nb_meals;
 	
 	int				dead_for_ever;
 	unsigned long	start_time;

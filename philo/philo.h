@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 19:47:24 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:02:10 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,13 @@ int		start_simulation(t_table *table);
 void	end_simulation(t_table *table);
 void	free_table(t_table *table);
 
+/*  eating  */
 int		eating(t_philo *philo);
 int		check_meals_eaten(t_death_timer *timer);
 void	meals_eaten(t_death_timer *timer);
+
+/*  check_args  */
+int		check_args(int argc, char **argv);
+
 
 #endif

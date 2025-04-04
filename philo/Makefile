@@ -7,6 +7,7 @@ OBJECTS = 					\
 		routine.o			\
 		watcher.o			\
 		eating.o			\
+		check_args.o		\
 
 CFLAGS = -Wall -Wextra -Werror
 

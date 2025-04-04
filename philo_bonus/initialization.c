@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:48:51 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/19 17:37:06 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:51:35 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	init_table(t_table *table, int argc, char **argv)
 	table->t2eat = atol(argv[3]);
 	table->t2sleep = atol(argv[4]);
 	if (argc == 6)
-		table->nb_meal = atol(argv[5]);
+		table->nb_meals = atol(argv[5]);
 	else
-		table->nb_meal = -1;
+		table->nb_meals = -1;
 	table->dead_for_ever = 0;
 	table->start_time = get_time_now();
 	if (init_philos(table) != 0)
