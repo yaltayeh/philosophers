@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 20:02:10 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:00:21 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define DEFAULT_MUTEX PTHREAD_MUTEX_INITIALIZER
 
-typedef struct s_death_timer
+typedef struct s_watcher
 {
 	long			last_meal;
 	pthread_mutex_t	time_lock;
@@ -33,7 +33,7 @@ typedef struct s_death_timer
 	int				nb_meals;
 
 	struct s_philo	*victim;
-}	t_death_timer;
+}	t_watcher;
 
 typedef struct s_philo
 {
@@ -43,7 +43,7 @@ typedef struct s_philo
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
 	struct s_table	*table;
-	t_death_timer	*timer;
+	t_watcher		*watcher;
 }	t_philo;
 
 typedef struct s_table
@@ -58,7 +58,7 @@ typedef struct s_table
 	long			start_time;
 
 	pthread_mutex_t	*forks_lock;
-	t_death_timer	*timers;
+	t_watcher	*watchers;
 
 	int				dead_for_ever;
 	pthread_mutex_t	dead_lock;
@@ -84,8 +84,8 @@ void	free_table(t_table *table);
 
 /*  eating  */
 int		eating(t_philo *philo);
-int		check_meals_eaten(t_death_timer *timer);
-void	meals_eaten(t_death_timer *timer);
+int		check_meals_eaten(t_watcher *watcher);
+void	meals_eaten(t_watcher *watcher);
 
 /*  check_args  */
 int		check_args(int argc, char **argv);

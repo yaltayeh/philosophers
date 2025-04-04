@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 19:59:02 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:00:21 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	free_table(t_table *table)
 		free(table->philos);
 	if (table->forks_lock)
 		free(table->forks_lock);
-	if (table->timers)
-		free(table->timers);
+	if (table->watchers)
+		free(table->watchers);
 }
 
 int	start_simulation(t_table *table)
