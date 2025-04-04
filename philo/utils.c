@@ -6,13 +6,13 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:54:00 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 10:55:48 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:16:53 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-unsigned long	get_time_now()
+unsigned long	get_time_now(void)
 {
 	struct timeval	now;
 

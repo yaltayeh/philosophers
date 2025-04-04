@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 10:59:54 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:34:51 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 {
 	int				id;
 	pthread_t		tid;
+	int				is_run;
 	int				meals_eaten;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
@@ -48,10 +49,10 @@ typedef struct s_table
 	long			t2eat;
 	long			t2sleep;
 	int				nb_meal;
-	
+
 	pthread_mutex_t	*forks_lock;
 	t_death_timer	*timers;
-	
+
 	int				dead_for_ever;
 	pthread_mutex_t	dead_lock;
 
@@ -60,11 +61,16 @@ typedef struct s_table
 }	t_table;
 
 int				init_table(t_table *table, int argc, char **argv);
-unsigned long	get_time_now();
+unsigned long	get_time_now(void);
 void			*start_routine(void *arg);
 int				best_usleep(t_table *table, unsigned long millisecond);
 void			print(t_philo *philo, char *msg);
-// int				check_dead(t_philo *philo);
-int	check_dead(t_table *table);
+int				check_dead(t_table *table);
+void			death_watcher(t_table *table);
+void			collect_forks(t_table *table);
+
+int				start_simulation(t_table *table);
+void			end_simulation(t_table *table);
+void			free_table(t_table *table);
 
 #endif

@@ -6,82 +6,86 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 11:39:07 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:35:50 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	collect_forks(t_table *table)
+void	free_table(t_table *table)
+{
+	if (table->philos)
+		free(table->philos);
+	if (table->forks_lock)
+		free(table->forks_lock);
+	if (table->timers)
+		free(table->timers);
+}
+
+int	start_simulation(t_table *table)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < table->nb_philo)
 	{
-		pthread_mutex_unlock(&table->forks_lock[i]);
+		if (pthread_create(&table->philos[i].tid, NULL, \
+				start_routine, &table->philos[i]))
+		{
+			end_simulation(table);
+			printf("pthead_create failed when trying "\
+					"to create thread No.%d\n", i + 1);
+			return (1);
+		}
+		table->philos[i].is_run = 1;
 		i++;
 	}
+	return (0);
 }
 
-void	death_watcher(t_table *table)
+void	end_simulation(t_table *table)
 {
-	int				i;
-	t_death_timer	*timer;
-	unsigned long	now;
+	int	i;
 
-	while (1)
+	pthread_mutex_lock(&table->dead_lock);
+	table->dead_for_ever = -1;
+	pthread_mutex_unlock(&table->dead_lock);
+	collect_forks(table);
+	if (table->philos)
 	{
-		now = get_time_now() - table->start_time;
 		i = 0;
 		while (i < table->nb_philo)
 		{
-			timer = &table->timers[i];
-			pthread_mutex_lock(&timer->lock);
-			if (now - timer->last_meal >= timer->t2die)
+			if (table->philos[i].is_run)
 			{
-				table->dead_for_ever = timer->victim->id;
-				pthread_mutex_unlock(&timer->lock);
-				collect_forks(table);
-				print(timer->victim, "died");
-				return ;
+				pthread_join(table->philos[i].tid, NULL);
+				table->philos[i].is_run = 0;
 			}
-			pthread_mutex_unlock(&timer->lock);
 			i++;
 		}
-		usleep(50);
 	}
+	free_table(table);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_table	table;
-	int		i;
-	
+
 	if (argc != 5 && argc != 6)
 	{
-		printf("Usage: %s nb_philo time_to_die time_to_eat time_to_sleep [nb_meal]\n", argv[0]);
+		printf("Usage: %s nb_philo time_to_die time_to_eat " \
+				"time_to_sleep [nb_meal]\n", argv[0]);
 		return (1);
 	}
 	if (init_table(&table, argc, argv) != 0)
 	{
 		printf("init Error\n");
+		end_simulation(&table);
 		return (1);
 	}
-	i = 0;
-	while (i < table.nb_philo)
-	{
-		if (pthread_create(&table.philos[i].tid, NULL, \
-			start_routine, &table.philos[i]))
-				break ;
-		i++;
-	}
-	
+	if (start_simulation(&table))
+		return (1);
 	death_watcher(&table);
-	
-	while (i--)
-		pthread_join(table.philos[i].tid, NULL);
-	free(table.philos);
-	free(table.forks_lock);
+	end_simulation(&table);
 	return (0);
 }
