@@ -6,6 +6,7 @@ OBJECTS = 					\
 		utils.o				\
 		routine.o			\
 		watcher.o			\
+		eating.o			\
 
 CFLAGS = -Wall -Wextra -Werror
 

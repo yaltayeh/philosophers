@@ -6,13 +6,13 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:54:00 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 16:16:53 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:44:11 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-unsigned long	get_time_now(void)
+long	get_time_now(void)
 {
 	struct timeval	now;
 
@@ -20,9 +20,9 @@ unsigned long	get_time_now(void)
 	return (now.tv_sec * 1000 + now.tv_usec / 1000);
 }
 
-int	best_usleep(t_table *table, unsigned long millisecond)
+int	best_usleep(t_table *table, long millisecond)
 {
-	unsigned long	start;
+	long	start;
 
 	start = get_time_now();
 	while (get_time_now() - start < millisecond)
@@ -36,6 +36,14 @@ int	best_usleep(t_table *table, unsigned long millisecond)
 
 void	print(t_philo *philo, char *msg)
 {
+	pthread_mutex_lock(&philo->table->dead_lock);
+	if (philo->table->dead_for_ever && \
+		philo->table->dead_for_ever != philo->id)
+	{
+		pthread_mutex_unlock(&philo->table->dead_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->table->dead_lock);
 	pthread_mutex_lock(&philo->table->print_lock);
 	printf("%lu %d %s\n", \
 			get_time_now() - philo->table->start_time, \
