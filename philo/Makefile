@@ -4,6 +4,8 @@ OBJECTS = 					\
 		main.o				\
 		initialization.o	\
 		utils.o				\
+		check_dead.o		\
+		routine.o			\
 
 CFLAGS = -Wall -Wextra -Werror
 
