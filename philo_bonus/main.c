@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 15:39:35 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:04:01 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	*meals_counter(void *arg)
 	{
 		sem_wait(table->meals_sem);
 		philo_end_eat++;
+		usleep(50);
 	}
 	dead_for_ever(table);
 	return (NULL);
@@ -74,7 +75,8 @@ void	end_simulation(t_table *table)
 		sem_post(table->meals_sem);
 		i++;
 	}
-	pthread_join(table->meals_counter, NULL);
+	if (table->nb_meals != -1)
+		pthread_join(table->meals_counter, NULL);
 	remove_semaphores(table);
 }
 

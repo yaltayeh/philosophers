@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 15:42:07 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:32:45 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	collect_forks(t_table *table);
 /*  simulation  */
 int		start_simulation(t_table *table);
 void	end_simulation(t_table *table);
-void	remove_sem(t_table *table);
+void	free_table(t_table *table);
 
 /*  eating  */
 int		eating(t_philo *philo);

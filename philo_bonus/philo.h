@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 15:05:29 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:07:00 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 
 # define DEFAULT_MUTEX PTHREAD_MUTEX_INITIALIZER
 

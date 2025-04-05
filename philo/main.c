@@ -6,13 +6,13 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 15:41:40 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:32:45 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	remove_sem(t_table *table)
+void	free_table(t_table *table)
 {
 	if (table->philos)
 		free(table->philos);
@@ -64,7 +64,7 @@ void	end_simulation(t_table *table)
 			i++;
 		}
 	}
-	remove_sem(table);
+	free_table(table);
 }
 
 int	main(int argc, char **argv)
@@ -76,7 +76,7 @@ int	main(int argc, char **argv)
 	if (init_table(&table, argc, argv) != 0)
 	{
 		printf("init Error\n");
-		remove_sem(&table);
+		free_table(&table);
 		return (1);
 	}
 	if (start_simulation(&table))
