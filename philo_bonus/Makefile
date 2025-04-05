@@ -1,12 +1,12 @@
-NAME = philo
+NAME = philo_bonus
 
-FILES = main			\
-		initialization	\
-		utils			\
-		routine			\
-		eating			\
-		check_args		\
-		sister			\
+FILES = main		\
+		init		\
+		uninit		\
+		utils		\
+		routine		\
+		eating		\
+		check_args	\
 
 OBJECTS = $(FILES:%=obj/%.o)
 

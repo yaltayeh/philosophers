@@ -5,56 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 01:31:31 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/03/29 13:38:11 by yaltayeh         ###   ########.fr       */
+/*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
+/*   Updated: 2025/04/05 14:06:23 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <signal.h>
 
-void	error_handler(t_table *table)
+void	*meals_counter(void *arg)
 {
-	int	i;
+	t_table	*table;
+	long	philo_end_eat;
 
-	(void)table;
+	table = (t_table *)arg;
+	philo_end_eat = 0;
+	while (philo_end_eat < table->nb_philo)
+	{
+		sem_wait(table->meals_sem);
+		philo_end_eat++;
+	}
+	dead_for_ever(table);
+	return (NULL);
+}
+
+int	start_simulation(t_table *table)
+{
+	int		i;
+	pid_t	pid;
+
+	if (table->nb_meals != -1 && \
+		pthread_create(&table->meals_counter, NULL, meals_counter, table) == -1)
+	{
+		printf("pthread_create: create meals_counter\n");
+		return (1);
+	}
 	i = 0;
 	while (i < table->nb_philo)
 	{
-		if (table->philos[i].pid)
-			kill(table->philos[i].pid, SIGKILL);
-		table->philos[i].pid = 0;
-		i++;
-	}
-}
-
-int main(int argc, char **argv)
-{
-	t_table	table;
-	int		i;
-	
-	if (argc != 5 && argc != 6)
-	{
-		printf("Usage: %s nb_philo time_to_die time_to_eat time_to_sleep [nb_meal]\n", argv[0]);
-		return (1);
-	}
-	if (init_table(&table, argc, argv) != 0)
-	{
-		printf("init Error\n");
-		return (1);
-	}
-	i = 0;
-	while (i < table.nb_philo)
-	{
-		table.philos[i].pid = fork();
-		if (table.philos[i].pid == -1)
-			error_handler(&table);
-		if (table.philos[i].pid == 0)
+		pid = fork();
+		if (pid == 0)
+			child_process(table, i + 1);
+		if (pid == -1)
 		{
-			exit(0);
+			printf("fork failed when trying "\
+					"to create thread No.%d\n", i + 1);
+			return (1);
 		}
 		i++;
 	}
 	return (0);
 }
 
+void	end_simulation(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		sem_post(table->d4e_sem);
+		i++;
+	}
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		sem_post(table->meals_sem);
+		i++;
+	}
+	pthread_join(table->meals_counter, NULL);
+	remove_semaphores(table);
+}
+
+int	main(int argc, char **argv)
+{
+	t_table	table;
+
+	if (check_args(argc, argv))
+		return (1);
+	if (init_table(&table, argc, argv) != 0)
+	{
+		remove_semaphores(&table);
+		return (1);
+	}
+	if (start_simulation(&table))
+	{
+		end_simulation(&table);
+		return (1);
+	}
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	end_simulation(&table);
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:48:51 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 21:00:21 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:18:33 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,24 @@ static int	init_philos(t_table *table)
 	return (0);
 }
 
-static int	init_watchers(t_table *table)
+static int	init_sisters(t_table *table)
 {
 	int	i;
 
-	table->watchers = malloc(table->nb_philo * sizeof(t_watcher));
-	if (!table->watchers)
+	table->sisters = malloc(table->nb_philo * sizeof(t_sister));
+	if (!table->sisters)
 		return (-1);
 	i = 0;
 	while (i < table->nb_philo)
 	{
-		table->watchers[i].last_meal = 0;
-		table->watchers[i].time_lock = (pthread_mutex_t)DEFAULT_MUTEX;
-		table->watchers[i].t2die = table->t2die;
-		table->watchers[i].meals_eaten = 0;
-		table->watchers[i].count_lock = (pthread_mutex_t)DEFAULT_MUTEX;
-		table->watchers[i].nb_meals = table->nb_meals;
-		table->watchers[i].victim = &table->philos[i];
-		table->watchers[i].victim->watcher = &table->watchers[i];
+		table->sisters[i].last_meal = 0;
+		table->sisters[i].time_lock = (pthread_mutex_t)DEFAULT_MUTEX;
+		table->sisters[i].t2die = table->t2die;
+		table->sisters[i].meals_eaten = 0;
+		table->sisters[i].count_lock = (pthread_mutex_t)DEFAULT_MUTEX;
+		table->sisters[i].nb_meals = table->nb_meals;
+		table->sisters[i].victim = &table->philos[i];
+		table->sisters[i].victim->sister = &table->sisters[i];
 		i++;
 	}
 	return (0);
@@ -89,7 +89,7 @@ int	init_table(t_table *table, int argc, char **argv)
 		return (-1);
 	if (init_philos(table) != 0)
 		return (-1);
-	if (init_watchers(table))
+	if (init_sisters(table))
 		return (-1);
 	table->start_time = get_time_now();
 	return (0);

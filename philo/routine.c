@@ -6,13 +6,13 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:18:23 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/04 20:59:43 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:59:03 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*start_routine(void *arg)
+void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
@@ -24,7 +24,7 @@ void	*start_routine(void *arg)
 		if (check_dead(philo->table))
 			break ;
 		print(philo, "is thinking");
-		if (check_meals_eaten(philo->watcher))
+		if (check_meals_eaten(philo->sister))
 			break ;
 		if (check_dead(philo->table))
 			break ;
@@ -35,7 +35,7 @@ void	*start_routine(void *arg)
 		print(philo, "is sleeping");
 		if (best_usleep(philo->table, philo->table->t2sleep))
 			break ;
-		meals_eaten(philo->watcher);
+		meals_eaten(philo->sister);
 	}
 	return (arg);
 }

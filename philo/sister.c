@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   watcher.c                                          :+:      :+:    :+:   */
+/*   sister.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -36,46 +36,46 @@ void	collect_forks(t_table *table)
 	}
 }
 
-int	check_time(t_watcher *watcher, long now)
+int	check_time(t_sister *sister, long now)
 {
 	t_table	*table;
 
-	table = watcher->victim->table;
-	pthread_mutex_lock(&watcher->time_lock);
-	if (now - watcher->last_meal >= watcher->t2die)
+	table = sister->victim->table;
+	pthread_mutex_lock(&sister->time_lock);
+	if (now - sister->last_meal >= sister->t2die)
 	{
-		pthread_mutex_unlock(&watcher->time_lock);
+		pthread_mutex_unlock(&sister->time_lock);
 		pthread_mutex_lock(&table->dead_lock);
-		table->dead_for_ever = watcher->victim->id;
+		table->dead_for_ever = sister->victim->id;
 		pthread_mutex_unlock(&table->dead_lock);
 		collect_forks(table);
-		print(watcher->victim, "died");
+		print(sister->victim, "died");
 		return (1);
 	}
-	pthread_mutex_unlock(&watcher->time_lock);
+	pthread_mutex_unlock(&sister->time_lock);
 	return (0);
 }
 
-int	check_meals(t_watcher *watcher)
+int	check_meals(t_sister *sister)
 {
-	if (watcher->nb_meals == -1)
+	if (sister->nb_meals == -1)
 		return (0);
-	pthread_mutex_lock(&watcher->count_lock);
-	if (watcher->meals_eaten >= watcher->nb_meals)
+	pthread_mutex_lock(&sister->count_lock);
+	if (sister->meals_eaten >= sister->nb_meals)
 	{
-		pthread_mutex_unlock(&watcher->count_lock);
-		pthread_join(watcher->victim->tid, NULL);
-		watcher->victim->is_run = 0;
+		pthread_mutex_unlock(&sister->count_lock);
+		pthread_join(sister->victim->tid, NULL);
+		sister->victim->is_run = 0;
 		return (1);
 	}
-	pthread_mutex_unlock(&watcher->count_lock);
+	pthread_mutex_unlock(&sister->count_lock);
 	return (0);
 }
 
-void	death_watcher(t_table *table)
+void	sister_watching(t_table *table)
 {
 	int				i;
-	t_watcher	*watcher;
+	t_sister		*sister;
 	long			now;
 	int				nb_running;
 
@@ -87,14 +87,14 @@ void	death_watcher(t_table *table)
 		nb_running = 0;
 		while (i < table->nb_philo)
 		{
-			watcher = &table->watchers[i];
+			sister = &table->sisters[i];
 			i++;
-			if (watcher->victim->is_run == 0)
+			if (sister->victim->is_run == 0)
 				continue ;
 			nb_running++;
-			if (check_meals(watcher))
+			if (check_meals(sister))
 				continue ;
-			if (check_time(watcher, now))
+			if (check_time(sister, now))
 				return ;
 		}
 		usleep(50);
