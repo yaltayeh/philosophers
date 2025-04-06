@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:51:36 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 17:32:45 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/06 09:20:30 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	end_simulation(t_table *table)
 	pthread_mutex_lock(&table->dead_lock);
 	table->dead_for_ever = -1;
 	pthread_mutex_unlock(&table->dead_lock);
-	collect_forks(table);
 	if (table->philos)
 	{
 		i = 0;

@@ -24,18 +24,6 @@ int	check_dead(t_table *table)
 	return (0);
 }
 
-void	collect_forks(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		pthread_mutex_unlock(&table->forks_lock[i]);
-		i++;
-	}
-}
-
 int	check_time(t_sister *sister, long now)
 {
 	t_table	*table;
@@ -48,7 +36,6 @@ int	check_time(t_sister *sister, long now)
 		pthread_mutex_lock(&table->dead_lock);
 		table->dead_for_ever = sister->victim->id;
 		pthread_mutex_unlock(&table->dead_lock);
-		collect_forks(table);
 		print(sister->victim, "died");
 		return (1);
 	}

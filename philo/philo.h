@@ -6,7 +6,7 @@
 /*   By: yaltayeh <yaltayeh@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:25:04 by yaltayeh          #+#    #+#             */
-/*   Updated: 2025/04/05 17:32:45 by yaltayeh         ###   ########.fr       */
+/*   Updated: 2025/04/06 09:18:02 by yaltayeh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	*philo_routine(void *arg);
 /*  dead  */
 int		check_dead(t_table *table);
 void	sister_watching(t_table *table);
-void	collect_forks(t_table *table);
 
 /*  simulation  */
 int		start_simulation(t_table *table);
