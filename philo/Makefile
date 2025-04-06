@@ -11,11 +11,12 @@ FILES = main			\
 OBJECTS = $(FILES:%=obj/%.o)
 
 CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -pthread
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	cc -o $@ $^
+	cc $(LDFLAGS) -o $@ $^
 
 obj:
 	mkdir -p $@
