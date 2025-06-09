@@ -39,11 +39,11 @@ typedef struct s_philo
 {
 	int				id;
 	pthread_t		tid;
-	int				is_run;
+	int				is_created;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
 	struct s_table	*table;
-	t_sister		*sister;
+	t_sister		sister;
 }	t_philo;
 
 typedef struct s_table
@@ -57,8 +57,10 @@ typedef struct s_table
 	int				nb_meals;
 	long			start_time;
 
+	pthread_mutex_t	run_lock;
+	int				is_running;
+
 	pthread_mutex_t	*forks_lock;
-	t_sister		*sisters;
 
 	int				dead_for_ever;
 	pthread_mutex_t	dead_lock;
@@ -80,6 +82,8 @@ void	sister_watching(t_table *table);
 int		start_simulation(t_table *table);
 void	end_simulation(t_table *table);
 void	free_table(t_table *table);
+int		wait_run(t_table *table);
+
 
 /*  eating  */
 int		eating(t_philo *philo);

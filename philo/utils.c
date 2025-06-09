@@ -36,17 +36,33 @@ int	best_usleep(t_table *table, long millisecond)
 
 void	print(t_philo *philo, char *msg)
 {
+	int	is_dead;
+
 	pthread_mutex_lock(&philo->table->dead_lock);
-	if (philo->table->dead_for_ever && \
-		philo->table->dead_for_ever != philo->id)
-	{
-		pthread_mutex_unlock(&philo->table->dead_lock);
-		return ;
-	}
+	is_dead = philo->table->dead_for_ever;
 	pthread_mutex_unlock(&philo->table->dead_lock);
+	if (is_dead && is_dead != philo->id)
+		return ;
 	pthread_mutex_lock(&philo->table->print_lock);
 	printf("%lu %d %s\n", \
 			get_time_now() - philo->table->start_time, \
 			philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_lock);
+}
+
+int	wait_run(t_table *table)
+{
+	int		is_running;
+
+	is_running = 0;
+	while (!is_running)
+	{
+		if (pthread_mutex_lock(&table->run_lock))
+			return (-1);
+		is_running = table->is_running;
+		if (pthread_mutex_unlock(&table->run_lock))
+			return (-1);
+		usleep(50);
+	}
+	return (is_running);
 }

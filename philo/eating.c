@@ -59,6 +59,7 @@ int	check_meals_eaten(t_sister *sister)
 
 int	eating(t_philo *philo)
 {
+	int	test;
 	if (philo->table->nb_philo == 1)
 	{
 		while (check_dead(philo->table) == 0)
@@ -68,17 +69,12 @@ int	eating(t_philo *philo)
 	if (take_a_forks(philo))
 		return (1);
 	print(philo, "is eating");
-	pthread_mutex_lock(&philo->sister->time_lock);
-	philo->sister->last_meal = \
-		get_time_now() - philo->sister->victim->table->start_time;
-	pthread_mutex_unlock(&philo->sister->time_lock);
-	if (best_usleep(philo->table, philo->table->t2eat))
-	{
-		pthread_mutex_unlock(philo->rfork);
-		pthread_mutex_unlock(philo->lfork);
-		return (1);
-	}
+	pthread_mutex_lock(&philo->sister.time_lock);
+	philo->sister.last_meal = \
+		get_time_now() - philo->table->start_time;
+	pthread_mutex_unlock(&philo->sister.time_lock);
+	test = best_usleep(philo->table, philo->table->t2eat);
 	pthread_mutex_unlock(philo->rfork);
 	pthread_mutex_unlock(philo->lfork);
-	return (0);
+	return (test);
 }

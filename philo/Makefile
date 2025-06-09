@@ -10,8 +10,8 @@ FILES = main			\
 
 OBJECTS = $(FILES:%=obj/%.o)
 
-CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -O1
+LDFLAGS = -pthread -fsanitize=thread -O1
 
 all: $(NAME)
 

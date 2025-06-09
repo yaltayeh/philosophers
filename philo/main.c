@@ -18,8 +18,6 @@ void	free_table(t_table *table)
 		free(table->philos);
 	if (table->forks_lock)
 		free(table->forks_lock);
-	if (table->sisters)
-		free(table->sisters);
 }
 
 int	start_simulation(t_table *table)
@@ -37,9 +35,13 @@ int	start_simulation(t_table *table)
 					"to create thread No.%d\n", i + 1);
 			return (1);
 		}
-		table->philos[i].is_run = 1;
+		table->philos[i].is_created = 1;
 		i++;
 	}
+	pthread_mutex_lock(&table->run_lock);
+	table->start_time = get_time_now();
+	table->is_running = 1;
+	pthread_mutex_unlock(&table->run_lock);
 	return (0);
 }
 
@@ -55,10 +57,10 @@ void	end_simulation(t_table *table)
 		i = 0;
 		while (i < table->nb_philo)
 		{
-			if (table->philos[i].is_run)
+			if (table->philos[i].is_created)
 			{
 				pthread_join(table->philos[i].tid, NULL);
-				table->philos[i].is_run = 0;
+				table->philos[i].is_created = 0;
 			}
 			i++;
 		}

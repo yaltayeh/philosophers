@@ -17,6 +17,8 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (wait_run(philo->table) == -1)
+		return (NULL);
 	if (philo->id & 1)
 		usleep(500);
 	while (1)
@@ -24,7 +26,7 @@ void	*philo_routine(void *arg)
 		if (check_dead(philo->table))
 			break ;
 		print(philo, "is thinking");
-		if (check_meals_eaten(philo->sister))
+		if (check_meals_eaten(&philo->sister))
 			break ;
 		if (check_dead(philo->table))
 			break ;
@@ -35,7 +37,7 @@ void	*philo_routine(void *arg)
 		print(philo, "is sleeping");
 		if (best_usleep(philo->table, philo->table->t2sleep))
 			break ;
-		meals_eaten(philo->sister);
+		meals_eaten(&philo->sister);
 	}
 	return (arg);
 }
